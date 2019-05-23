@@ -60,7 +60,10 @@ class BSONInput(object):
     def _reads(self):
         r = self._read
         while 1:
-            yield r()
+            try:
+                yield r()
+            except StopIteration:
+                return
 
     def close(self):
         self.fh.close()
@@ -84,6 +87,9 @@ class KeyValueBSONInput(BSONInput):
             n = it.next
         while 1:
             doc = n()
-            yield doc
+            try:
+                yield doc
+            except StopIteration:
+                return
 
     __iter__ = reads
