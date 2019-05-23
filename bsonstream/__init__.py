@@ -86,8 +86,8 @@ class KeyValueBSONInput(BSONInput):
         else:  # six.PY2
             n = it.next
         while 1:
-            doc = n()
             try:
+                doc = n()
                 yield doc
             except StopIteration:
                 return
